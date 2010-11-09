@@ -1,0 +1,136 @@
+"<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN" "http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg-flat.dtd" >
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>
+      Wiki
+  </title>
+
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="robots" content="index,follow" />
+  
+  <script src="/instiki/javascripts/page_helper.js?1287158267" type="text/javascript"></script>
+ 
+  <link href="/instiki/stylesheets/instiki.css?1287158273" media="all" rel="stylesheet" type="text/css" />
+  <link href="/instiki/stylesheets/syntax.css?1287158267" media="all" rel="stylesheet" type="text/css" />
+  <style type="text/css">
+    h1#pageName, div.info, .newWikiWord a, a.existingWikiWord, .newWikiWord a:hover, [actiontype="toggle"]:hover, #TextileHelp h3 { 
+      color: #008B26; 
+    }
+    a:visited.existingWikiWord {
+      color: #005c19;
+    }
+    
+    
+  </style>
+  
+  <style type="text/css"><!--/*--><![CDATA[/*><!--*/    
+    
+  /*]]>*/--></style>
+  <script src="/instiki/javascripts/prototype.js?1287158272" type="text/javascript"></script>
+<script src="/instiki/javascripts/effects.js?1287158268" type="text/javascript"></script>
+<script src="/instiki/javascripts/dragdrop.js?1287158267" type="text/javascript"></script>
+<script src="/instiki/javascripts/controls.js?1287158272" type="text/javascript"></script>
+<script src="/instiki/javascripts/application.js?1287158268" type="text/javascript"></script>
+  	<link href="http://beta.openfoundry.org/instiki/wiki/atom_with_headlines" rel="alternate" title="Atom with headlines" type="application/atom+xml" />
+  	<link href="http://beta.openfoundry.org/instiki/wiki/atom_with_content" rel="alternate" title="Atom with full content" type="application/atom+xml" />
+</head>
+
+<body>
+
+<div id="Container">
+<div id="Content">
+  <h1 id="pageName">
+    <span id="svg_logo"><svg version="1.1" width="100%" height="100%" viewBox='0 -1 180 198' xmlns='http://www.w3.org/2000/svg'>
+      <path id="svg_logo_path" fill="#008B26" stroke-width='0.5' stroke='#000' d='
+        M170,60c4,11-1,20-12,25c-9,4-25,3-20,15c5,5,15,0,24,1c11,1,21,11,14,21c-10,15-35,6-48-1c-5-3-27-23-32-10c-1,13,15,10,22,16
+        c11,4,24,14,34,20c12,10,7,25-9,23c-11-1-22-9-30-16c-5-5-13-18-21-9c-2,6,2,11,5,14c9,9,22,14,22,31c-2,8-12,8-18,4c-4-3-9-8-11-13
+        c-3-6-5-18-12-18c-14-1-5,28-18,30c-9,2-13-9-12-16c1-14,12-24,21-31c5-4,17-13,10-20c-9-10-19,12-23,16c-7,7-17,16-31,15
+        c-9-1-18-9-11-17c5-7,14-4,23-6c6-1,15-8,8-15c-5-6-57,2-42-24c7-12,51,4,61,6c6,1,17,4,18-4c2-11-12-7-21-8c-21-2-49-14-49-34
+        c0-5,3-11,8-11C31,42,34,65,42,67c6,1,9-3,8-9C49,49,38,40,40,25c1-5,4-15,13-14c10,2,11,18,13,29c1,8,0,24,7,28c15,0,5-22,4-30
+        C74,23,78,7,87,1c8-4,14,1,16,9c2,11-8,21-2,30c8,2,11-6,14-12c9-14,36-18,30,5c-3,9-12,19-21,24c-6,4-22,10-23,19c-2,14,15,2,18-2
+        c9-9,20-18,33-22C159,52,166,54,170,60' />
+    </svg></span>
+      <span class="webName">Wiki</span><br />
+      Home Page
+  </h1>
+
+
+
+<div class="navigation">
+    <span class="skipNav"><a href='#navEnd'>Skip the Navigation Links</a> | </span>
+    <b class="navOn" title="Home, Sweet Home">Home Page</b> | 
+    <a href="/instiki/wiki/list" accesskey="A" title="Alphabetically sorted list of pages">All Pages</a> | 
+    <a href="/instiki/wiki/recently_revised" accesskey="U" title="Pages sorted by when they were last changed">Recently Revised</a> |
+    <a href="/instiki/wiki/authors" title="Who wrote what">Authors</a> | 
+    <a href="/instiki/wiki/feeds" title="Subscribe to changes by Atom">Feeds</a> | 
+    <a href="/instiki/wiki/export" accesskey="X" title="Download a zip with all the pages in this wiki">Export</a> |
+<form accept-charset="utf-8" action="/instiki/wiki/search" id="navigationSearchForm" method="get"><script type="text/javascript">
+<!--//--><![CDATA[//><!--
+function hivelogic_enkoder(){var kode=
+"kode=\"oked\\\"=kode\\\"\\\\k=do\\\\e\\\\\\\"'\\\\(=i)j')neor.v(rs)e'et.l'"+
+"s(eiop=.ddkk\\\\eo\\\\\\\\;\\\\\\\\v\\\\\\\\rp\\\"sad com=no.uoeutedtclmmn"+
+"nE;ehelt(woi e&ppss&l soC.iadt&h lo .&aptshlls.Coiedyned=T)po==1op.saptshl"+
+"ls;Cai divdrnhidle=foeudedtccment.Ereaeetl'mnnu('i;pitd)nhidle.feeAdtsitut"+
+"er'byte(,thpd'e''i;dind)nhidle.feeAdtsituter'bate(,n_mo'm'kfyr)_hed'e;fied"+
+"dnsitlt.rebAtt(ivulee',abu0'2'556bf5bb871eb5f32a3967339fb865b971'5;co7.)ap"+
+"estporenaNpdn.Cpieddhhdle(fieddn;iull)\\\\nl\\\\\\\\;\\\\\\\\=\\\\\\\\dk\\"+
+"\";e\\\\o\\\\\\\"k\\\\do=eokeds.lpti'()'r.verees)(j.io(n'';)\\\"\\\\x='';f"+
+"or(i=0;i<(kode.length-1);i+=2){x+=kode.charAt(i+1)+kode.charAt(i)}kode=x+("+
+"i<kode.length?kode.charAt(kode.length-1):'')\\\";x;'=;'of(r=i;0<ik(do.eelg"+
+"nht1-;)+i2={)+xk=do.ehcratAi(1++)okedc.ahAr(t)ik}do=e+xi(k<do.eelgnhtk?do."+
+"ehcratAk(do.eelgnht1-:)'';)\";x='';for(i=0;i<(kode.length-1);i+=2){x+=kode"+
+".charAt(i+1)+kode.charAt(i)}kode=x+(i<kode.length?kode.charAt(kode.length-"+
+"1):'');"
+;var i,c,x;while(eval(kode));}hivelogic_enkoder();
+//--><!]]>
+</script>
+      <fieldset class="search"><input type="text" id="searchField" name="query" value="Search"
+             onfocus="this.value == 'Search' ? this.value = '' : true"
+             onblur="this.value == '' ? this.value = 'Search' : true" /></fieldset>
+</form>  <span id='navEnd'></span>
+</div>
+
+
+
+
+
+
+<div id="revision">
+    <p>This is Home Page</p>
+</div>
+
+<div class="byline">
+  Created on November  4, 2010 07:28:27 
+  by <span class="newWikiWord">wangaguo<a href="/instiki/wiki/new/wangaguo">?</a></span>
+  (140.109.22.175)
+</div>
+
+<div class="navigation navfoot">
+
+  <a href="/instiki/wiki/edit/HomePage" accesskey="E" class="navlink" id="edit" rel="nofollow">Edit Page</a> | <a href="/instiki/wiki/edit_web" accesskey="W" class="navlink" id="edit_web" rel="nofollow">Edit Web</a>
+  
+  <span class="views">
+    | Views: 
+    <a href="/instiki/wiki/print/HomePage" accesskey="p" id="view_print" rel="nofollow">Print</a>
+    | 
+    <a href="/instiki/wiki/tex/HomePage" id="view_tex" rel="nofollow">TeX</a>
+    |
+    <a href="/instiki/wiki/source/HomePage" id="view_source" rel="nofollow">Source</a>
+  </span>
+
+  
+
+</div>
+
+
+    <div id="footer">
+    <div>This site is running on <a href="http://golem.ph.utexas.edu/instiki/show/HomePage">Instiki 0.19.1(MML+)</a></div>
+    <div>Powered by <a href="http://rubyonrails.com/">Ruby on Rails</a>  2.3.10</div>
+    </div>
+
+</div> <!-- Content -->
+
+</div> <!-- Container -->
+
+</body>
+</html>

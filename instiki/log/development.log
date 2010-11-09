@@ -1,0 +1,53 @@
+# Logfile created on Wed Nov 03 08:15:36 +0000 2010** Erubis 2.6.6
+** Erubis 2.6.6
+
+
+Processing WikiController#index (for 140.109.22.175 at 2010-11-04 04:07:35) [GET]
+
+ActiveRecord::StatementInvalid (Could not find table 'webs'):
+  app/models/wiki.rb:97:in `setup?'
+  app/controllers/wiki_controller.rb:21:in `index'
+  passenger (3.0.0) lib/phusion_passenger/rack/request_handler.rb:96:in `process_request'
+  passenger (3.0.0) lib/phusion_passenger/abstract_request_handler.rb:513:in `accept_and_process_next_request'
+  passenger (3.0.0) lib/phusion_passenger/abstract_request_handler.rb:274:in `main_loop'
+  passenger (3.0.0) lib/phusion_passenger/classic_rails/application_spawner.rb:321:in `start_request_handler'
+  passenger (3.0.0) lib/phusion_passenger/classic_rails/application_spawner.rb:275:in `send'
+  passenger (3.0.0) lib/phusion_passenger/classic_rails/application_spawner.rb:275:in `handle_spawn_application'
+  passenger (3.0.0) lib/phusion_passenger/utils.rb:479:in `safe_fork'
+  passenger (3.0.0) lib/phusion_passenger/classic_rails/application_spawner.rb:270:in `handle_spawn_application'
+  passenger (3.0.0) lib/phusion_passenger/abstract_server.rb:357:in `__send__'
+  passenger (3.0.0) lib/phusion_passenger/abstract_server.rb:357:in `server_main_loop'
+  passenger (3.0.0) lib/phusion_passenger/abstract_server.rb:206:in `start_synchronously'
+  passenger (3.0.0) lib/phusion_passenger/abstract_server.rb:180:in `start'
+  passenger (3.0.0) lib/phusion_passenger/classic_rails/application_spawner.rb:149:in `start'
+  passenger (3.0.0) lib/phusion_passenger/spawn_manager.rb:219:in `spawn_rails_application'
+  passenger (3.0.0) lib/phusion_passenger/abstract_server_collection.rb:132:in `lookup_or_add'
+  passenger (3.0.0) lib/phusion_passenger/spawn_manager.rb:214:in `spawn_rails_application'
+  passenger (3.0.0) lib/phusion_passenger/abstract_server_collection.rb:82:in `synchronize'
+  passenger (3.0.0) lib/phusion_passenger/abstract_server_collection.rb:79:in `synchronize'
+  passenger (3.0.0) lib/phusion_passenger/spawn_manager.rb:213:in `spawn_rails_application'
+  passenger (3.0.0) lib/phusion_passenger/spawn_manager.rb:132:in `spawn_application'
+  passenger (3.0.0) lib/phusion_passenger/spawn_manager.rb:275:in `handle_spawn_application'
+  passenger (3.0.0) lib/phusion_passenger/abstract_server.rb:357:in `__send__'
+  passenger (3.0.0) lib/phusion_passenger/abstract_server.rb:357:in `server_main_loop'
+  passenger (3.0.0) lib/phusion_passenger/abstract_server.rb:206:in `start_synchronously'
+  passenger (3.0.0) helper-scripts/passenger-spawn-server:99
+
+Rendered rescues/_trace (155.3ms)
+Rendered rescues/_request_and_response (2.1ms)
+Rendering rescues/layout (internal_server_error)
+** Erubis 2.6.6
+  [4;36;1mSQL (3.1ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+** Erubis 2.6.6
+  [4;36;1mSQL (3.1ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+** Erubis 2.6.6
+  [4;36;1mSQL (3.1ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
