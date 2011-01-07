@@ -2,7 +2,7 @@
 
 = Introduction =
 
-passenger-top is like unix top command for passenger.
+passenger-top is like unix top command for [http://www.modrails.com/ passenger].
 
 Ruby on Rails passenger has passenger-status can view instance status. but I wanted it similar to top command, so I created this project. 
 
@@ -10,10 +10,10 @@ Ruby on Rails passenger has passenger-status can view instance status. but I wan
 passenger-status
 
 = Download =
-checkout or download “passenger-top.rb“
+checkout or [http://www.openfoundry.org/of/projects/1558/download download]“passenger-top.rb“
 
 = How to use =
 > ruby passenger-top.rb
 
 = Author =
-wangaguo's profile 
+[http://www.openfoundry.org/tw/user/userprofile/wangaguo wangaguo's profile]
