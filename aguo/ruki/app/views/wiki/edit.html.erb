@@ -1,0 +1,23 @@
+<%= form_tag :action => 'edit' do %>
+<h2>
+  <% if params[:wiki_page].nil? -%>
+    <%= text_field(:wiki_page, :name, :value => params[:id]) %> 
+  <% else -%>
+    <%= @wiki_page.name -%>
+  <% end %>
+</h2>
+
+<%= render :partial => "functions"%>
+<hr/>
+
+<% if @wiki_html %>
+  <%= @wiki_html.html_safe %>
+<% end %>
+<%= text_area :wiki_page, :content, :cols => 80, :rows => 20  %>
+<br/>
+<%= submit_tag 'Preview', :name => 'submit_preview' %>
+<%= submit_tag 'Save', :name => 'submit_save' %>
+<% end %>
+
+<hr/>
+<%= render :partial => "functions"%>

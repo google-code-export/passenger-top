@@ -1,0 +1,10 @@
+<h2>Revisions</h2>
+
+<%= render :partial => "functions"%>
+<hr/>
+<% @revisions.each do |r| -%>
+  <input type="checkbox" />
+  <a href="">r<%= r.revision %></a> <%= r.revised_by %> <%= r.revised_at %><br/>
+<% end -%>
+<hr/>
+<%= render :partial => "functions"%>

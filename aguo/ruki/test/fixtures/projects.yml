@@ -1,0 +1,9 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+OpenFoundry:
+ id: 1
+ name: OpenFoundry 
+
+NeaName:
+ id: 549 
+ name: NewName 

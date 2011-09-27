@@ -1,0 +1,9 @@
+<h2><%= @wiki_page.name %></h2>
+
+<%= render :partial => "functions"%>
+<hr/>
+<% if @wiki_html -%>
+   <%= @wiki_html.html_safe %>
+<% end -%>
+<hr/>
+<%= render :partial => "functions"%>

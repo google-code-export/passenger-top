@@ -1,0 +1,15 @@
+<h2>WikiPageName</h2>
+
+<%= render :partial => "functions"%>
+<hr/>
+
+<% if @wiki_html %>
+  <%= @wiki_html.html_safe %>
+<% end %>
+<%= form_tag '/of' do %>
+<%= text_area :wiki_page, :content, :cols => 80, :rows => 20  %>
+<%= submit_tag 'Preview' %>
+<% end %>
+
+<hr/>
+<%= render :partial => "functions"%>

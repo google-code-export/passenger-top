@@ -1,0 +1,19 @@
+<div id="wiki_functions">
+  <a href="<%= project_wiki_path(params[:project_id], 'HomePage') %>">Home</a> |
+  <a href="<%= lists_project_wiki_index_path %>">Lists</a> |
+  <a href="<%= edit_project_wiki_path(params[:project_id], 'NoName') %>">New</a> |
+  <% if !params[:id].nil? and params[:rid].nil?%>
+  <a href="<%= edit_project_wiki_path(params[:project_id], params[:id]) %>">Edit</a> |
+  <% end %>
+  <% unless params[:id].nil? %>
+  <a href="">Delete</a> |
+  <% end %>
+  <% unless params[:id].nil? and params[:rid].nil? %>
+  <a href="<%= revisions_project_wiki_path %>">Revisions</a> |
+  <% end %>
+  <% unless params[:id].nil? %>
+  <a href="/of/wiki/export">Export</a> |
+  <% end %>
+  <a href="/of/wiki/help">Help</a> |
+  <input type="text"/>
+</div>
