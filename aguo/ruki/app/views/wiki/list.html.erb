@@ -1,0 +1,93 @@
+<% content_for :page_head do %>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js"></script> 
+  <link rel="stylesheet" href="http://tablesorter.com/themes/blue/style.css" />
+  <script type="text/javascript" src="http://autobahn.tablesorter.com/jquery.tablesorter.min.js"></script>
+  <script type="text/javascript" src="http://tablesorter.com/addons/pager/jquery.tablesorter.pager.js"></script>
+<% end %>
+<% content_for :ujs do %>
+  $.noConflict();
+  (function($){
+    $(document).ready(function(){
+      $("#wiki_list_check_box_all").click(function(){
+        if($(this).attr('checked') == 'checked')
+        {
+          jQuery.each($('[name="page_id[]"]'), function() {
+            $(this).attr('checked', 'checked');
+          });
+        }
+        else
+        {
+          jQuery.each($('[name="page_id[]"]'), function() {
+            $(this).removeAttr('checked');
+          });
+        }
+      });
+
+      $(":submit").click(function(){
+        if($(':checkbox[name="page_id[]"]:checked').length == 0){
+          alert('<%= t('No selected items.') %>');
+          return false;
+        }
+      });
+  
+      $("table") 
+        .tablesorter({widthFixed: true, widgets: ['zebra'], headers:{0:{sorter:false}}})
+        .tablesorterPager({container: $("#pager"), size:10, positionFixed:false}); 
+    });
+  })(jQuery);
+<% end %>
+
+<h2><%= t('Pages List') %></h2>
+
+<%= render :partial => "functions"%>
+<hr/>
+
+<%= form_tag :action => 'list' do %>
+  <% if @wiki_permit -%>
+    <%= submit_tag "#{t('Export')} Wiki", :name => 'submit_export_wiki' %>
+    <%= submit_tag "#{t('Export')} HTML", :name => 'submit_export_html' %>
+    <%= submit_tag t('Protected'), :name => 'submit_protected' %>
+    <%= submit_tag t('Private'), :name => 'submit_private' %>
+    <%= submit_tag t('Public'), :name => 'submit_public' %>
+    <%= submit_tag t('Delete'), :name => 'submit_delete', :confirm => t('Are you sure?') %>
+  <% end -%>
+  <table class="tablesorter">
+  <thead>
+    <th style="width:15px"><input type="checkbox" id="wiki_list_check_box_all"></th>
+    <th><%= t('Page Name') %></th>
+    <th><%= t('Summary') %></th>
+    <th><%= t('Author') %></th>
+    <th><%= t('Revision') %></th>
+    <th><%= t('Status') %></th>
+    <th><%= t('Modify Time') %></th>
+  </thead>
+  <% @wiki_pages.each do |wiki_page|-%>
+  <tr>
+    <td><%= check_box_tag "page_id[]", wiki_page.id %></td>
+    <td><%= link_to wiki_page.name, project_wiki_path(params[:project_id], wiki_page.name) %></td>
+    <td><%= wiki_page.summary %></td>
+    <td><%= wiki_page.revised_by %></td>
+    <td><%= wiki_page.revision %></td>
+    <td><%= t(wiki_page.status_to_s) %></td>
+    <td><%= tz_datetime(wiki_page.revised_at) %></td>
+  </tr>
+  <% end -%>
+  </table>
+  <div id="pager" class="pager">
+    <img src="http://tablesorter.com/addons/pager/icons/first.png" class="first"/>
+    <img src="http://tablesorter.com/addons/pager/icons/prev.png" class="prev"/>
+    <input type="text" class="pagedisplay"/>
+    <img src="http://tablesorter.com/addons/pager/icons/next.png" class="next"/>
+    <img src="http://tablesorter.com/addons/pager/icons/last.png" class="last"/>
+    <select class="pagesize">
+      <option selected="selected"  value="10">10</option>
+      <option value="20">20</option>
+      <option value="50">50</option>
+      <option value="100">100</option>
+      <option value="200">200</option>
+    </select>
+  </div>
+<% end %>
+
+<hr/>
+<%= render :partial => "functions"%>

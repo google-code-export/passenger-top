@@ -11,12 +11,15 @@ class CreateWiki < ActiveRecord::Migration
       t.integer  "id"
       t.integer  "project_id"
       t.string   "name"
-      t.string   "content"
+      t.string   "summary"
+      t.text     "content"
       t.integer  "revision"
+      t.string   "log"
       t.string   "locked_by"
       t.datetime "locked_at"
       t.string   "revised_by"
       t.datetime "revised_at"
+      t.integer  "status"
       t.datetime "created_at",  :null => false
       t.datetime "updated_at"
     end
@@ -24,8 +27,9 @@ class CreateWiki < ActiveRecord::Migration
     create_table "wiki_revisions", :force => true do |t|
       t.integer  "id"
       t.integer  "page_id"
-      t.string   "content"
+      t.text     "content"
       t.integer  "revision"
+      t.string   "log"
       t.string   "revised_by"
       t.datetime "revised_at"
       t.datetime "created_at",  :null => false

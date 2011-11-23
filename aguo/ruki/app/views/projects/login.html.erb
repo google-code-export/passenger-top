@@ -1,0 +1,9 @@
+<%= form_tag :action => "login" do %>
+  <%= submit_tag "Login as guest", :name => "submit_guest" %>
+  <%= submit_tag "Login as wangaguo", :name => "submit_wangaguo" %>
+  <%= submit_tag "Login as shawn", :name => "submit_shawn" %>
+<% end %>
+<ul>
+  <li>wangaguo is project member and has permission.</li>
+  <li>shawn is project member and no permission.</li>
+</ul>

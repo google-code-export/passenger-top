@@ -1,0 +1,15 @@
+<h2><%= @wiki_page.name %> <%= t('Diff') %></h2>
+
+<%= render :partial => "functions"%>
+<hr/>
+<%= t('Diff') %>: 
+<% if @r1.class.to_s == 'WikiPages' %>
+  <%= t('Current Page') %>
+<% else %>
+  r<%= @r1.revision %>
+<% end %>
+<%= t('and') %> r<%= @r2.revision %>
+<br/><br/>
+<%= @diff_html.to_s.html_safe %>
+<hr/>
+<%= render :partial => "functions"%>

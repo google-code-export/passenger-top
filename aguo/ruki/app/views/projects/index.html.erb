@@ -1,0 +1,7 @@
+<hr/>
+Project wiki list: 
+<ul>
+<% @projects.each do |p| %>
+  <%= link_to p.name, project_wiki_index_path(p.id)%><br/>
+<% end %>
+</ul>

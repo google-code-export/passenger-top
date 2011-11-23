@@ -1,19 +1,20 @@
 <div id="wiki_functions">
-  <a href="<%= project_wiki_path(params[:project_id], 'HomePage') %>">Home</a> |
-  <a href="<%= lists_project_wiki_index_path %>">Lists</a> |
-  <a href="<%= edit_project_wiki_path(params[:project_id], 'NoName') %>">New</a> |
-  <% if !params[:id].nil? and params[:rid].nil?%>
-  <a href="<%= edit_project_wiki_path(params[:project_id], params[:id]) %>">Edit</a> |
+  <a href="<%= project_wiki_path(params[:project_id], 'HomePage') %>"><%= t("Home") %></a> |
+  <a href="<%= list_project_wiki_index_path %>"><%= t("List") %></a> |
+  <% if @wiki_permit == true %>
+    <a href="<%= edit_project_wiki_path(params[:project_id], 'NoName') %>"><%= t("New") %></a> |
   <% end %>
-  <% unless params[:id].nil? %>
-  <a href="">Delete</a> |
+  <% if !params[:id].nil? and (@wiki_permit or @wiki_page.status == WikiPages::STATUS[:PUBLIC]) -%>
+    <a href="<%= edit_project_wiki_path(params[:project_id], params[:id]) %>"><%= t("Edit") %></a> |
+  <% end -%>
+  <% if !params[:id].nil? and @wiki_permit == true -%>
+    <a href="<%= revisions_project_wiki_path %>"><%= t("Revisions") %></a> |
+  <% end -%>
+  <% if @wiki_permit == true -%>
+    <a href="<%= files_project_wiki_index_path %>"><%= t("Files") %></a> |
+  <% end -%>
+  <a href="<%= help_project_wiki_index_path %>"><%= t("Help") %></a> |
+  <%= form_tag({:action => "list"}, {:style => "margin:0;padding:0;display:inline;"}) do %>
+    <%= text_field_tag :search, @search %>
   <% end %>
-  <% unless params[:id].nil? and params[:rid].nil? %>
-  <a href="<%= revisions_project_wiki_path %>">Revisions</a> |
-  <% end %>
-  <% unless params[:id].nil? %>
-  <a href="/of/wiki/export">Export</a> |
-  <% end %>
-  <a href="/of/wiki/help">Help</a> |
-  <input type="text"/>
 </div>

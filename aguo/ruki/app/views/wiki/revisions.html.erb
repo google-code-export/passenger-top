@@ -1,10 +1,30 @@
-<h2>Revisions</h2>
+<h2><%= params[:id] %> <%= t('Revisions') %></h2>
 
 <%= render :partial => "functions"%>
 <hr/>
-<% @revisions.each do |r| -%>
-  <input type="checkbox" />
-  <a href="">r<%= r.revision %></a> <%= r.revised_by %> <%= r.revised_at %><br/>
-<% end -%>
+<% if @revisions.empty? %>
+  This page is not exists.
+<% else %>
+  <table style="" border="1">
+    <thead>
+      <th></th>
+      <th align="center">Revision</th>
+      <th>Diff with current</th>
+      <th>Log</th>
+      <th>Revised by</th>
+      <th>Revised Date</th>
+    </thead>
+  <% @revisions.each do |r| -%>
+    <tr align="center">
+      <td><input type="checkbox" /></td>
+      <td><a href="./?r=<%=r.revision%>">r<%= r.revision %></a></td>
+      <td><a href="diff?r2=<%=r.revision%>">diff</a></td>
+      <td><%= r.log %></td>
+      <td><%= r.revised_by %></td>
+      <td><%= r.revised_at %></td>
+    </tr>
+  <% end -%>
+  </table>
+<% end %>
 <hr/>
 <%= render :partial => "functions"%>

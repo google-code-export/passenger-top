@@ -1,13 +1,417 @@
-<h2>WikiPageName</h2>
+<h2><%= t('Wiki Markup Help') %></h2>
 
 <%= render :partial => "functions"%>
 <hr/>
-<pre>
+<h1>Markup</h1>
+<p>
+The markup is very close to that used by MediaWiki, the most popular wiki
+software and the one that powers Wikipedia.
+</p>
+<h2>Headings</h2>
+<pre class="code">    = Heading 1 =
+    == Heading 2 ==
+    === Heading 3 ===
+    ==== Heading 4 ====
+    ===== Heading 5 =====
+    ====== Heading 6 ======
+</pre>
+<p>
+Are marked up as:
+</p>
+<pre class="code">    &lt;h1&gt;Heading 1&lt;/h1&gt;
 
+    &lt;h2&gt;Heading 2&lt;/h2&gt;
+    &lt;h3&gt;Heading 3&lt;/h3&gt;
+    &lt;h4&gt;Heading 4&lt;/h4&gt;
+    &lt;h5&gt;Heading 5&lt;/h5&gt;
 
-這是Help
+    &lt;h6&gt;Heading 6&lt;/h6&gt;
+</pre>
+<h2>Paragraphs</h2>
+<p>
+Consecutive linebreaks are converted into paragraph breaks.
+</p>
+<pre class="code">    This is one paragraph.
+    Another line.
 
+    And this is another.
+</pre>
+<p>
+Would be marked up as:
+</p>
 
+<pre class="code">    &lt;p&gt;This is one paragraph. Another line.&lt;/p&gt;
+    &lt;p&gt;And this is another.&lt;/p&gt;
+</pre>
+<h2>Emphasis, Strong</h2>
+<p>
+Emphasis is marked up as follows:
+</p>
+<pre class="code">    ''emphasized''
+
+</pre>
+<p>
+Which gets translated into:
+</p>
+<pre class="code">    &lt;em&gt;emphasized&lt;/em&gt;
+</pre>
+<p>
+Strong is marked up like this:
+</p>
+<pre class="code">    '''strong text'''
+</pre>
+<p>
+
+And transformed into:
+</p>
+<pre class="code">    &lt;strong&gt;strong text&lt;/strong&gt;
+</pre>
+<p>
+You can nest spans inside one another, provided you don’t try to
+produce invalid HTML (for example, nesting strong inside strong). Here is a
+valid example:
+</p>
+<pre class="code">    '''''foo'' bar''' baz
+</pre>
+<p>
+This would become:
+</p>
+
+<pre class="code">    &lt;strong&gt;&lt;em&gt;foo&lt;/em&gt; bar&lt;/strong&gt; baz
+</pre>
+<p>
+Note that the translator emits HTML on the fly, so when it sees the first
+run of five apostrophes it has no way of knowing what will come afterwards
+and so doesn’t know whether you mean to say "strong em" or
+"em strong"; it therefore always assumes "strong em".
+If you wish to force the alternative interpretation you can do one of the
+following:
+</p>
+<pre class="code">    '' '''foo''' bar'' baz (ie. use whitespace)
+    ''&lt;nowiki&gt;&lt;/nowiki&gt;'''foo''' bar'' baz (ie. insert an empty nowiki span)
+    &lt;em&gt;&lt;strong&gt;foo&lt;/strong&gt; bar&lt;/em&gt; baz (ie. use explicit HTML tags instead)
+    &lt;em&gt;'''foo''' bar&lt;/em&gt; baz (ie. use explicit HTML tags instead)
+
+</pre>
+<p>
+Note that to avoid ambiguity, the translator will not let you intermix the
+shorthand style with the literal HTML tag style.
+</p>
+<pre class="code">    &lt;em&gt;foo'' (ie. intermixed, invalid)
+</pre>
+<h2>Teletype</h2>
+<p>
+The translator recognizes both standard HTML <tt>tt</tt> tags and the
+backtick (`) as a shorthand. These two are equivalent:
+</p>
+<pre class="code">    &lt;tt&gt;fixed&lt;/tt&gt;
+
+    `fixed`
+</pre>
+<p>
+As of version 2.0, this markup is actually translated to <tt>code</tt> tags
+in the output because the <tt>tt</tt> tag was removed from the HTML5
+standard.
+</p>
+<p>
+If you need to insert a literal backtick in your text you use a
+<tt>nowiki</tt> span:
+
+</p>
+<pre class="code">    here follows a literal &lt;nowiki&gt;`&lt;/nowiki&gt; backtick
+</pre>
+<p>
+To avoid ambiguity, the translator will not let you intermix the two
+styles.
+</p>
+<h2><tt>nowiki</tt> spans</h2>
+<p>
+
+Already mentioned above, you can use <tt>nowiki</tt> tags to temporarily
+disable wikitext markup. As soon as the translator sees the opening
+<tt>nowiki</tt> tag it starts emitting a literal copy of everything it sees
+up until the closing <tt>nowiki</tt> tag:
+</p>
+<pre class="code">    Hello &lt;nowiki&gt;''world''&lt;/nowiki&gt;
+
+</pre>
+<p>
+Would be emitted as:
+</p>
+<pre class="code">    Hello ''world''
+</pre>
+<h2>Blockquotes</h2>
+<pre class="code">    &gt; Hello world!
+    &gt; Bye for now.
+</pre>
+<p>
+Would be emitted as:
+
+</p>
+<pre class="code">    &lt;blockquote&gt;&lt;p&gt;Hello world! Bye for now.&lt;/p&gt;&lt;/blockquote&gt;
+</pre>
+<p>
+You can nest blockquotes or any other kind of block or span inside
+blockquotes. For example:
+</p>
+<pre class="code">    &gt; first quote
+    &gt;&gt; quote inside a quote
+
+</pre>
+<h2>Preformatted text</h2>
+<p>
+Any line indented with whitespace will be interpreted as part of a
+<tt>pre</tt> block. Wikitext markup inside <tt>pre</tt> blocks has no
+special meaning. For example, consider the following block indented by a
+single space:
+</p>
+<pre class="code">     // source code listing
+     void foo(void)
+     {
+         x++;
+     }
+</pre>
+<p>
+Would be translated into:
+
+</p>
+<pre class="code">    &lt;pre&gt;// source code listing
+    void foo(void)
+    {
+        x++;
+    }&lt;/pre&gt;
+</pre>
+<p>
+<tt>pre</tt> blocks may be nested inside <tt>blockquote</tt> blocks.
+</p>
+<h2>Internal links</h2>
+
+<pre class="code">    [[article title]]
+</pre>
+<p>
+Would become:
+</p>
+<pre class="code">    &lt;a href="/wiki/article_title"&gt;article title&lt;/a&gt;
+</pre>
+<p>
+And:
+</p>
+<pre class="code">    [[title|link text]]
+
+</pre>
+<p>
+Would become:
+</p>
+<pre class="code">    &lt;a href="/wiki/article"&gt;link text&lt;/a&gt;
+</pre>
+<p>
+See the Wikitext::Parser attributes documentation for how you can override
+the default link prefix (<em>/wiki/</em> as shown in the example), and how
+"red links" can be implemented by applying custom CSS depending
+on the link target (this can be used to make links to non-existent pages
+appear in a different color).
+</p>
+<h2>Alternative blockquote and preformatted block syntax</h2>
+
+<p>
+For <tt>blockquote</tt> and <tt>pre</tt> blocks that go on for many lines
+it may be more convenient to use the alternative syntax which uses standard
+HTML tags rather than special prefixes at the beginning of each line.
+</p>
+<pre class="code">    &lt;blockquote&gt;This is
+    a blockquote!&lt;/blockquote&gt;
+
+    &lt;pre&gt;And this is
+    preformatted text&lt;/pre&gt;
+
+</pre>
+<p>
+<tt>blockquote</tt> and <tt>pre</tt> blocks may nest inside other
+<tt>blockquote</tt> blocks.
+</p>
+<p>
+Note that to avoid ambiguity, the translator will not let you intermix the
+two styles (HTML markup and wikitext markup).
+</p>
+<p>
+<tt>pre</tt> blocks may also contain a custom <tt>lang</tt> attribute for
+the purposes of marking up a block for syntax-highlighting (note that the
+highlighting itself would be provided by JavaScript in the browser and is
+not actually part of the Wikitext extension). For example:
+
+</p>
+<pre class="code">    &lt;pre lang="ruby"&gt;puts @person.name&lt;/pre&gt;
+</pre>
+<p>
+Would be translated into:
+</p>
+<pre class="code">    &lt;pre class="ruby-syntax"&gt;puts @person.name&lt;/pre&gt;
+</pre>
+<p>
+
+The <tt>lang</tt> attribute may only contain letters, so
+"Objective-C", for example would need to be written as
+"objc" or similar.
+</p>
+<h2>External links</h2>
+<pre class="code">    [http://example.com/ this site]
+</pre>
+<p>
+Would become:
+</p>
+<pre class="code">    &lt;a href="http://example.com/" class="external"&gt;this site&lt;/a&gt;
+
+</pre>
+<p>
+See the <span class="object_link"><a href="Wikitext/Parser.html" title="Wikitext::Parser (class)">Wikitext::Parser</a></span> attributes documentation for information on
+overriding the default external link class (<tt>external</tt> in this
+example), or including a <tt>rel</tt> attribute of "nofollow"
+(which may be useful for search-engine optimization).
+</p>
+<p>
+Note that in addition to providing a fully-qualified URL including a
+protocol (such as "http://" or "ftp://") you also have
+the option of using an unqualified "path"-style URL. This is
+useful for making links to other pages still on the same site, but outside
+of the wiki:
+</p>
+<pre class="code">    [/issues/1024 ticket #1024]
+
+</pre>
+<p>
+Would become:
+</p>
+<pre class="code">    &lt;a href="/issues/1024"&gt;ticket #1024&lt;/a&gt;
+</pre>
+<p>
+Note that no "external" class is included in the generated link.
+</p>
+<p>
+To avoid false positives, what constitutes a "path" is
+narrowly-defined as a string that begins with a slash, optionally followed
+by zero or more "path components" consisting of upper and
+lowercase letters, numbers, underscores, hyphens or periods. Path
+components are separated by a slash, and the trailing slash after the last
+path component is optional.
+</p>
+<h2>Images</h2>
+
+<pre class="code">    {{foo.png}}
+</pre>
+<p>
+When outputting using HTML syntax (the default), this would become:
+</p>
+<pre class="code">    &lt;img src="/images/foo.png" alt="foo.png"&gt;
+</pre>
+<p>
+When outputting using XML syntax, this would become a self-closing tag:
+</p>
+<pre class="code">    &lt;img src="/images/foo.png" alt="foo.png" /&gt;
+</pre>
+
+<p>
+See the Wikitext::Parser documentation for information on setting the
+output syntax.
+</p>
+<p>
+You can override the "/images/" prefix using the
+<tt>img_prefix</tt> attribute of the Parser.
+</p>
+<p>
+You can also specify "absolute" image "src" attributes
+regardless of the current prefix setting by starting the image path with a
+forward slash; that is:
+</p>
+<pre class="code">    {{/foo.png}}
+</pre>
+<p>
+Would become:
+
+</p>
+<pre class="code">    &lt;img src="/foo.png" alt="/foo.png"&gt;
+</pre>
+<h2>Lists</h2>
+<p>
+Lists come in both unordered ("ul"):
+</p>
+<pre class="code">    * item
+    * item
+    * item
+</pre>
+<p>
+And ordered ("ol") forms:
+</p>
+<pre class="code">    # first
+    # second
+    # third
+
+</pre>
+<p>
+These would produce, respectively:
+</p>
+<pre class="code">    &lt;ul&gt;
+      &lt;li&gt;item&lt;/li&gt;
+      &lt;li&gt;item&lt;/li&gt;
+
+      &lt;li&gt;item&lt;/li&gt;
+    &lt;/ul&gt;
+</pre>
+<p>
+And:
+</p>
+<pre class="code">    &lt;ol&gt;
+      &lt;li&gt;first&lt;/li&gt;
+
+      &lt;li&gt;second&lt;/li&gt;
+      &lt;li&gt;third&lt;/li&gt;
+    &lt;/ol&gt;
+</pre>
+<p>
+Lists may be nested inside one another as needed. For example:
+</p>
+
+<pre class="code">    # outer a
+    # outer b
+    #* nested 1
+    #* nested 2
+    # outer c
+    ## nested foo
+    ## nested bar
+    ##* x
+    ##* y
+    ##** z
+</pre>
+<p>
+Would produce:
+</p>
+<pre class="code">    &lt;ol&gt;
+      &lt;li&gt;outer a&lt;/li&gt;
+      &lt;li&gt;outer b
+        &lt;ul&gt;
+
+          &lt;li&gt;nested 1&lt;/li&gt;
+          &lt;li&gt;nested 2&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;outer c
+        &lt;ol&gt;
+
+          &lt;li&gt;nested foo&lt;/li&gt;
+          &lt;li&gt;nested bar
+            &lt;ul&gt;
+              &lt;li&gt;x&lt;/li&gt;
+              &lt;li&gt;y
+                &lt;ul&gt;
+
+                  &lt;li&gt;z&lt;/li&gt;
+                &lt;/ul&gt;
+              &lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/li&gt;
+
+        &lt;/ol&gt;
+      &lt;/li&gt;
+    &lt;/ol&gt;
 </pre>
 <hr/>
 <%= render :partial => "functions"%>

@@ -21,20 +21,24 @@ ActiveRecord::Schema.define(:version => 20110819055920) do
   create_table "wiki_pages", :force => true do |t|
     t.integer  "project_id"
     t.string   "name"
-    t.string   "content"
+    t.string   "summary"
+    t.text     "content"
     t.integer  "revision"
+    t.string   "log"
     t.string   "locked_by"
     t.datetime "locked_at"
     t.string   "revised_by"
     t.datetime "revised_at"
+    t.integer  "status"
     t.datetime "created_at", :null => false
     t.datetime "updated_at"
   end
 
   create_table "wiki_revisions", :force => true do |t|
     t.integer  "page_id"
-    t.string   "content"
+    t.text     "content"
     t.integer  "revision"
+    t.string   "log"
     t.string   "revised_by"
     t.datetime "revised_at"
     t.datetime "created_at", :null => false

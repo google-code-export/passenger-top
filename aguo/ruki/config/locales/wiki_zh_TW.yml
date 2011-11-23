@@ -1,0 +1,50 @@
+"zh_TW":
+  #About functions
+  Home: "首頁"
+  List: "列表"
+  New: "新增"
+  Edit: "編輯"
+  Revisions: "修改記錄"
+  Files: "檔案"
+  Help: "說明"
+
+  #About buttons
+  Export: "匯出"
+  Protected: "保護"
+  Private: "私有"
+  Public: "公開"
+  Delete: "刪除" 
+
+  #About status
+  PROTECTED: "保護"
+  PRIVATE: "私有"
+  PUBLIC: "公開"
+
+  #About page list
+  "Page Name": "頁面名稱"
+  Summary: "摘要"
+  Author: "作者"
+  Revision: "版號"
+  Status: "狀態"
+  "Modify Time": "修改時間"
+
+  #About files
+  "File Name": "檔案名稱"
+  "File Size": "檔案大小"
+  "Upload Date": "上傳日期"
+  "Image Size": "圖片大小"
+  "Image Preview": "圖片預覽"
+  "Upload files": "上傳檔案"
+  "Upload": "上傳" 
+  "Reset": "清除"
+  "Are you sure?": "你確定嗎?"
+
+  #About page title
+  "Pages List": "頁面列表"
+  "Files List": "檔案列表"
+  "Wiki Markup Help": "Wiki語法說明"
+
+  #Other
+  Diff: "比較差異"
+  "Current Page": "目前頁面"
+  and: "和"

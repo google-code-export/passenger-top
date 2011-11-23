@@ -1,7 +1,17 @@
 Wiki::Application.routes.draw do
-  scope "/of" do
-    #root :to => 'wiki#index'
+  base_url = Wiki::Application.config.root_path
+  scope base_url do
+  #scope "/of" do
+    #root :to => ''
+    root :to => 'wiki#index'
+
     resources :projects do
+      collection do
+        get 'index'
+        get 'login'
+        post 'login'
+        get 'lang'
+      end
       resources :wiki do
         #resources :page
         member do
@@ -10,15 +20,21 @@ Wiki::Application.routes.draw do
           get 'edit'
           post 'edit'
           get 'revisions'
+          get 'diff'
           match 'revisions/:rid' => 'wiki#revision_page'
-          get 'export'
-          get 'help'
+          #get 'export'
           post 'preview'
         end
         collection do
           get 'index'
-          get 'lists'
-          get 'export'
+          get 'list'
+          post 'list'
+          get 'help'
+          #get 'export'
+          post 'web_upload'
+          get 'files'
+          post 'delete_files'
+          #will remove below
         end
       end
     end

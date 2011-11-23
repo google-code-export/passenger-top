@@ -1,0 +1,50 @@
+"en":
+  #About functions
+  Home: "Home" 
+  List: "List"
+  New: "New"
+  Edit: "Edit"
+  Revisions: "Revisions"
+  Files: "Files"
+  Help: "Help"
+
+  #About buttons
+  Export: "Export"
+  Protected: "Protected"
+  Private: "Private"
+  Public: "Public"
+  Delete: "Delete" 
+
+  #About status
+  PROTECTED: "PROTECTED"
+  PRIVATE: "PRIVATE"
+  PUBLIC: "PUBLIC"
+
+  #About page list
+  "Page Name": "Page Name"
+  Summary: "Summary"
+  Author: "Author"
+  Revision: "Revision"
+  Status: "Status"
+  "Modify Time": "Modify Time"
+
+  #About files
+  "File Name": "File Name"
+  "File Size": "File Size"
+  "Upload Date": "Upload Date"
+  "Image Size": "Image Size"
+  "Image Preview": "Image Preview"
+  "Upload files": "Upload files"
+  "Upload": "Upload" 
+  "Reset": "Reset"
+  "Are you sure?": "Are you sure?"
+
+  #About page title
+  "Pages List": "Pages List"
+  "Files List": "Files List"
+  "Wiki Markup Help": "Wiki Markup Help"
+
+  #Other
+  Diff: "Diff"
+  "Current Page": "Current Page"
+  and: "and"
