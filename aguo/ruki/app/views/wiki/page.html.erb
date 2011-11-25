@@ -5,16 +5,16 @@
   <% end -%>
 </h2>
 
-<%= render :partial => "functions"%>
+<%= render :partial => "functions" %>
 <hr/>
 <em><%= @wiki_page.summary %></em>
 <% if params[:r] and @revision.nil? -%>
-  This revision is not exists.
+  <%= t('This revision is not exists', :scope => [:wiki, :message]) %>
 <% else -%>
   <% if @wiki_html -%>
      <%= @wiki_html.html_safe %>
      <% if @wiki_page.revised_by %>
-       <%= "Updated #{@wiki_page.revised_at} by #{@wiki_page.revised_by}" %>
+       <%= "#{t('Updated', :scope => :wiki)} #{@wiki_page.revised_at} by #{@wiki_page.revised_by}" %>
      <% end %>
   <% end -%>
   <% if @revision -%>
@@ -25,4 +25,4 @@
   <% end -%>
 <% end %>
 <hr/>
-<%= render :partial => "functions"%>
+<%= render :partial => "functions" %>

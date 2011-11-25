@@ -3,8 +3,6 @@
   <link rel="stylesheet" href="http://tablesorter.com/themes/blue/style.css" />
   <script type="text/javascript" src="http://autobahn.tablesorter.com/jquery.tablesorter.min.js"></script>
   <script type="text/javascript" src="http://tablesorter.com/addons/pager/jquery.tablesorter.pager.js"></script>
-  <script src="11http://www.openfoundry.org/of/javascripts/jquery.tablesorter.js" type="text/javascript"></script>
-  <script src="11http://www.openfoundry.org/of/javascripts/jquery.tablesorter.pager.js" type="text/javascript"></script>
   <script type="text/javascript" src="/of/yoxview/yoxview-init.js"></script>
 <% end %>
 <% content_for :ujs do %>
@@ -29,32 +27,32 @@
 
       $(":submit[name='delete']").click(function(){
         if($(':checkbox[name="files[]"]:checked').length == 0){
-          alert('<%= t('No selected items.') %>');
+        alert('<%= t('No selected items', :scope => [:wiki, :message]) %>');
           return false;
         }
       });
 
       $("table")
-        .tablesorter({widthFixed:true, widgets:['zebra'], headers:{0:{sorter:false}, 2:{sorter:false}}})
+        .tablesorter({widthFixed:true, widgets:['zebra'], headers:{0:{sorter:false}, 5:{sorter:false}}})
         .tablesorterPager({container: $("#pager"), size:10, positionFixed:false});
       $(".yoxview").yoxview();
     });
   })(jQuery);
 <% end %>
 
-<h2><%= t('Files List') %></h2>
+<h2><%= t('Files List', :scope => :wiki) %></h2>
 
 <%= render :partial => "functions" %>
 <hr/>
 
-<%= t('Upload files') %>:
+<%= t('Upload files', :scope => :wiki) %>:
 <%= form_tag({:action => 'web_upload'}, :multipart => true) do %>
   <%# form_tag ({:project_id => @project.id, :id => @release.id, :action => 'web_upload'}, :multipart => true) do %>
   <% for i in 1..3 %>
     <%= file_field_tag("upload_file[]") %><br/>
   <% end %>
-  <%= submit_tag t('Upload') %>
-  <%= submit_tag t('Reset'), :type => 'reset' %> 
+  <%= submit_tag t('Upload', :scope => :wiki) %>
+  <%= submit_tag t('Reset', :scope => :wiki), :type => 'reset' %> 
 <% end %>
 
 <%= form_tag({:action => 'delete_files'}) do %>
@@ -62,11 +60,11 @@
   <table class="tablesorter yoxview">
     <thead>
       <th style="width:15px"><input type="checkbox" id="wiki_list_check_box_all"></th>
-      <th><%= t('File Name') %></th>
-      <th><%= t('File Size') %></th>
-      <th><%= t('Upload Date') %></th>
-      <th><%= t('Image Size') %></th>
-      <th><%= t('Image Preview') %></th>
+      <th><%= t('File Name', :scope => :wiki) %></th>
+      <th><%= t('File Size', :scope => :wiki) %></th>
+      <th><%= t('Upload Date', :scope => :wiki) %></th>
+      <th><%= t('Image Size', :scope => :wiki) %></th>
+      <th><%= t('Image Preview', :scope => :wiki) %></th>
     </thead>
   <% @files.each do |f| -%>
     <tr>
@@ -99,7 +97,7 @@
       <option value="200">200</option>
     </select>
   </div>
-  <%= submit_tag t('Delete'), :name => 'delete', :confirm => t('Are you sure?') %>
+  <%= submit_tag t('Delete', :scope => :wiki), :name => 'delete', :confirm => t('Are you sure?', :scope => [:wiki, :message]) %>
 <% end %>
 
 <hr/>

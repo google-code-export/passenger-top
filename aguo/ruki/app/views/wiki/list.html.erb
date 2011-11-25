@@ -25,7 +25,7 @@
 
       $(":submit").click(function(){
         if($(':checkbox[name="page_id[]"]:checked').length == 0){
-          alert('<%= t('No selected items.') %>');
+        alert('<%= t('No selected items.', :scope => [:wiki, :message]) %>');
           return false;
         }
       });
@@ -37,29 +37,31 @@
   })(jQuery);
 <% end %>
 
-<h2><%= t('Pages List') %></h2>
+<h2><%= t('Pages List', :scope => :wiki) %></h2>
 
 <%= render :partial => "functions"%>
 <hr/>
 
 <%= form_tag :action => 'list' do %>
   <% if @wiki_permit -%>
-    <%= submit_tag "#{t('Export')} Wiki", :name => 'submit_export_wiki' %>
-    <%= submit_tag "#{t('Export')} HTML", :name => 'submit_export_html' %>
-    <%= submit_tag t('Protected'), :name => 'submit_protected' %>
-    <%= submit_tag t('Private'), :name => 'submit_private' %>
-    <%= submit_tag t('Public'), :name => 'submit_public' %>
-    <%= submit_tag t('Delete'), :name => 'submit_delete', :confirm => t('Are you sure?') %>
+    <%= submit_tag "#{t('Export', :scope => :wiki)} Wiki", :name => 'submit_export_wiki' %>
+    <%= submit_tag "#{t('Export', :scope => :wiki)} HTML", :name => 'submit_export_html' %>
+    <%#= submit_tag "#{t('Export')} PDF", :name => 'submit_export_pdf' %>
+    <%= submit_tag t('Protected', :scope => :wiki), :name => 'submit_protected' %>
+    <%= submit_tag t('Private', :scope => :wiki), :name => 'submit_private' %>
+    <%= submit_tag t('Public', :scope => :wiki), :name => 'submit_public' %>
+    <%= submit_tag t('Delete', :scope => :wiki), :name => 'submit_delete', 
+                   :confirm => t('Are you sure?', :scope => [:wiki, :message]) %>
   <% end -%>
   <table class="tablesorter">
   <thead>
     <th style="width:15px"><input type="checkbox" id="wiki_list_check_box_all"></th>
-    <th><%= t('Page Name') %></th>
-    <th><%= t('Summary') %></th>
-    <th><%= t('Author') %></th>
-    <th><%= t('Revision') %></th>
-    <th><%= t('Status') %></th>
-    <th><%= t('Modify Time') %></th>
+    <th><%= t('Page Name', :scope => :wiki) %></th>
+    <th><%= t('Summary', :scope => :wiki) %></th>
+    <th><%= t('Author', :scope => :wiki) %></th>
+    <th><%= t('Revision', :scope => :wiki) %></th>
+    <th><%= t('Status', :scope => :wiki) %></th>
+    <th><%= t('Modify Time', :scope => :wiki) %></th>
   </thead>
   <% @wiki_pages.each do |wiki_page|-%>
   <tr>
@@ -68,7 +70,7 @@
     <td><%= wiki_page.summary %></td>
     <td><%= wiki_page.revised_by %></td>
     <td><%= wiki_page.revision %></td>
-    <td><%= t(wiki_page.status_to_s) %></td>
+    <td><%= t(wiki_page.status_to_s, :scope => :wiki) %></td>
     <td><%= tz_datetime(wiki_page.revised_at) %></td>
   </tr>
   <% end -%>

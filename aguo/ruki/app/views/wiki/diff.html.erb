@@ -1,14 +1,14 @@
-<h2><%= @wiki_page.name %> <%= t('Diff') %></h2>
+<h2><%= @wiki_page.name %> <%= t('Diff', :scope => :wiki) %></h2>
 
 <%= render :partial => "functions"%>
 <hr/>
-<%= t('Diff') %>: 
+<%= t('Diff', :scope => :wiki) %>: 
 <% if @r1.class.to_s == 'WikiPages' %>
-  <%= t('Current Page') %>
+  <%= t('Current Page', :scope => :wiki) %>
 <% else %>
   r<%= @r1.revision %>
 <% end %>
-<%= t('and') %> r<%= @r2.revision %>
+<%= t('and', :scope => :wiki) %> r<%= @r2.revision %>
 <br/><br/>
 <%= @diff_html.to_s.html_safe %>
 <hr/>

@@ -1,24 +1,24 @@
-<h2><%= params[:id] %> <%= t('Revisions') %></h2>
+<h2><%= params[:id] %> <%= t('Revisions', :scope => :wiki) %></h2>
 
 <%= render :partial => "functions"%>
 <hr/>
 <% if @revisions.empty? %>
-  This page is not exists.
+  <%= t('This page is not exists', :scope => [:wiki, :message]) %>
 <% else %>
   <table style="" border="1">
     <thead>
       <th></th>
-      <th align="center">Revision</th>
-      <th>Diff with current</th>
-      <th>Log</th>
-      <th>Revised by</th>
-      <th>Revised Date</th>
+      <th align="center"><%= t('Revision', :scope => :wiki) %></th>
+      <th><%= t('Diff with current', :scope => :wiki) %></th>
+      <th><%= t('Log', :scope => :wiki) %></th>
+      <th><%= t('Revised by', :scope => :wiki) %></th>
+      <th><%= t('Revised Date', :scope => :wiki) %></th>
     </thead>
   <% @revisions.each do |r| -%>
     <tr align="center">
       <td><input type="checkbox" /></td>
       <td><a href="./?r=<%=r.revision%>">r<%= r.revision %></a></td>
-      <td><a href="diff?r2=<%=r.revision%>">diff</a></td>
+      <td><a href="diff?r2=<%=r.revision%>"><%= t('Diff', :scope => :wiki) %></a></td>
       <td><%= r.log %></td>
       <td><%= r.revised_by %></td>
       <td><%= r.revised_at %></td>

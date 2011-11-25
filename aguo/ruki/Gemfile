@@ -35,6 +35,7 @@ gem 'diffy'
 gem 'recaptcha', :require => 'recaptcha/rails'
 gem 'rubyzip'
 gem 'image_size'
+gem 'wicked_pdf'
 
 group :development, :test do
   gem 'rack', '1.2.2'

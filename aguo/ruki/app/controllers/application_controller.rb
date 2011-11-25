@@ -3,18 +3,12 @@ require 'permission_table'
 class ApplicationController < ActionController::Base
   protect_from_forgery
   include OpenFoundry::PermissionTable
-  #require 'recaptcha'
 
   protected
 
   def check_permission
     pass = false
     function_name = PERMISSION_TABLE[controller_name.to_sym][action_name.to_sym]
-    logger.error "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-    logger.error "#{controller_name} #{action_name}"
-    logger.error "function_name:#{function_name}"
-    logger.error "survey:#{PERMISSION_TABLE[:survey][:index]}"
-    logger.error "wiki:#{PERMISSION_TABLE[:wiki][:edit]}"
     begin
       pass =
       if @project

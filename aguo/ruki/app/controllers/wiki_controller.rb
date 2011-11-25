@@ -5,6 +5,7 @@ require 'fileutils'
 class WikiController < ApplicationController
   #require 'RMagick'
   #include Magick
+  include ActionView::Helpers::NumberHelper
   before_filter :timezone
   before_filter :check_permission
 
@@ -35,7 +36,7 @@ class WikiController < ApplicationController
       if @wiki_page
         #Is private page
         if @wiki_permit == false and @wiki_page.status == WikiPages::STATUS[:PRIVATE]
-          flash[:warning] = t("No permission. #{@wiki_page.name} is private page")
+          flash[:warning] = t("is private page", :name => @wiki_page.name, :scope => 'wiki.message')
           redirect_to :action => 'list'
           return
         end
@@ -54,7 +55,7 @@ class WikiController < ApplicationController
       else #No HomePage and no permit
         @wiki_page = WikiPages.new
         @wiki_page.name = "HomePage"
-        @wiki_html = t("This page is no content") + "<br/></br/></br>"
+        @wiki_html = t("This page is no content", :scope => 'wiki.message') + "<br/></br/></br>"
       end
       render :template => 'wiki/page'
     end
@@ -99,6 +100,8 @@ class WikiController < ApplicationController
         end
       elsif params[:submit_export_html]
         export_html
+      elsif params[:submit_export_pdf]
+        export_pdf
       elsif params[:submit_export_wiki]
         export_wiki
       end
@@ -118,22 +121,6 @@ class WikiController < ApplicationController
     @search = params[:search]
   end
 
-  #def add 
-  #  #will remove?
-  #  unless @wiki_permit
-  #    flash[:warning] = t("No permission")
-  #    redirect_to :action => 'list'
-  #    return
-  #  end
-  #  @wiki_page = WikiPages.find_by_project_id_and_name(params[:project_id], params[:id])
-  #  if @wiki_page.nil?
-  #    edit
-  #    render :template => 'wiki/edit'
-  #  else
-  #    redirect_to :action => 'show'
-  #  end
-  #end
-
   def edit
     ActionView::Base.send(:include, Recaptcha::ClientHelper)
     ActionController::Base.send(:include, Recaptcha::Verify)
@@ -141,7 +128,7 @@ class WikiController < ApplicationController
     @wiki_page = WikiPages.page_all.find_by_project_id_and_name(params[:project_id], params[:id])
     if @wiki_page.nil? #page not exists.
       unless @wiki_permit
-        flash[:warning] = t("No Permission")
+        flash[:warning] = t("No Permission", :scope => 'wiki.message')
         redirect_to :action => 'list'
         return
       end
@@ -149,7 +136,7 @@ class WikiController < ApplicationController
       @wiki_page.name = params[:id]
       @wiki_page.status = WikiPages::STATUS[:PROTECTED]
     elsif @wiki_permit == false and @wiki_page.status != WikiPages::STATUS[:PUBLIC]
-      flash[:warning] = t("No Permission to edit #{@wiki_page.name} page")
+      flash[:warning] = t("No Permission", :scope => 'wiki.message')
       redirect_to :action => 'list'
       return
     end
@@ -168,26 +155,26 @@ class WikiController < ApplicationController
       else params[:submit_save]
         err_msg = ''
         if params[:wiki_page][:name] == 'NoName'
-          err_msg += t('Please input a new page name') + '</br>'
+          err_msg += t('Please input a new page name', :scope => 'wiki.message') + '</br>'
         end
         if params[:wiki_page][:content].strip == ""
-          err_msg += t('Please input content') + '</br>'
+          err_msg += t('Please input content', :scope => 'wiki.message') + '</br>'
         end
         if params[:wiki_page][:name].strip == ""
-          err_msg += t('Please input page name') + '</br>'
+          err_msg += t('Please input page name', :scope => 'wiki.message') + '</br>'
         end
         unless WikiPages.page_all.
                  where(:project_id => params[:project_id]).
                  where(:name => params[:wiki_page][:name]).
                  where("id <> '#{wp.id}'").empty? 
-          err_msg += t('Page name already exist') + '</br>'
+          err_msg += t('Page name already exist', :scope => 'wiki.message') + '</br>'
         end
         if err_msg != ""
           flash.now[:warning] = err_msg.html_safe
           return
         end
         if current_user.login == 'guest' and verify_recaptcha == false
-          flash.now[:warning] = t('Please confirm captcha') 
+          flash.now[:warning] = t('Please confirm captcha', :scope => 'wiki.message') 
           return
         end
 
@@ -240,7 +227,7 @@ class WikiController < ApplicationController
   end
 
   def files
-    path = File.join(WikiPages::WIKI_UPLOAD_PATH, '/', params[:project_id], "/*")
+    path = File.join(WIKI_UPLOAD_PATH, '/', params[:project_id], "/*")
     @files = [];
     Dir.glob(path){ |file|
       unless File.directory?(file)
@@ -263,8 +250,8 @@ class WikiController < ApplicationController
     unless params[:files].nil?
       params[:files].each do |f|
         begin 
-          File.delete(File.join(WikiPages::WIKI_UPLOAD_PATH, params[:project_id], f))
-          File.delete(File.join(WikiPages::WIKI_UPLOAD_PATH, params[:project_id], 'small', f))
+          File.delete(File.join(WIKI_UPLOAD_PATH, params[:project_id], f))
+          File.delete(File.join(WIKI_UPLOAD_PATH, params[:project_id], 'small', f))
         rescue 
         end
       end
@@ -275,46 +262,54 @@ class WikiController < ApplicationController
   def web_upload
     if !params[:upload_file].nil?
       #Check and create folder
-      project_path = File.join(WikiPages::WIKI_UPLOAD_PATH, params[:project_id])
+      project_path = File.join(WIKI_UPLOAD_PATH, params[:project_id])
       unless File.directory?(project_path)
         Dir.mkdir(project_path)
         Dir.mkdir(File.join(project_path, 'small'))
       end
-      #Upload each file
-      params[:upload_file].each do |f| 
-        upload_an_file(f)
+      Dir.chdir(project_path)
+
+      #Upload each file with check exists and size. 
+      file_exists = []
+      file_size_check = true 
+      file_size_total = 0
+      params[:upload_file].each do |f|
+        file_size_total += f.size
+        if f.size > 6*1024*1024#WIKI_MAX_UPLOAD_FILE_SIZE
+          file_size_check = false
+        end
+        if File.exists?(f.original_filename)
+          file_exists << f.original_filename
+        end
+      end
+
+      #Check file size & total size
+      foder_size = %x[du -s #{project_path}].scan(/^\d*/)[0].to_i
+      if file_size_check == false
+        flash[:warning] = t("File size limit ") + number_to_human_size(WIKI_MAX_UPLOAD_FILE_SIZE)
+      elsif ((file_size_total+foder_size) > 2*1024*1024)#WIKI_MAX_UPLOAD_TOTAL_SIZE)
+        flash[:warning] = t("Total file size limit", 
+                            :total => number_to_human_size(WIKI_MAX_UPLOAD_TOTAL_SIZE),
+                            :current => number_to_human_size(foder_size),
+                            :scope => [:wiki, :message])
+      end
+      #Check file exists?
+      if file_exists.count > 0
+        flash[:warning] = t("File exists", :files => file_exists.join(";"), :scope => [:wiki, :message])
+      end
+      #Upload files
+      if flash[:warning].nil? 
+        params[:upload_file].each do |f| 
+          upload_an_file(f)
+        end
       end
     end
     redirect_to :action => 'files' 
   end
 
-  #remove
-  def login
-    if request.post?
-      if params[:submit_wangaguo]
-        session["login_name"] = "wangaguo"
-      elsif params[:submit_shawn]
-        session["login_name"] = "shawn"
-      else
-        session["login_name"] = "guest"
-      end
-      redirect_to :action => 'list'
-    end
-  end
-
-  #remove
-  def lang
-    if params[:lang] == 'en'
-      session["wiki_lang"] = 'en'
-    else
-      session["wiki_lang"] = 'zh_TW'
-    end
-    redirect_to :action => 'list'
-  end
-
 protected
   def upload_an_file(uploaded_file)
-    save_as = File.join(WikiPages::WIKI_UPLOAD_PATH,
+    save_as = File.join(WIKI_UPLOAD_PATH,
                         params[:project_id] , uploaded_file.original_filename)
 
     File.open( save_as.to_s, 'w' ) do |file|
@@ -347,37 +342,29 @@ protected
     export_pages_as_zip("html")
   end
 
+  def export_pdf
+    export_pages_as_zip("pdf")
+  end
+
   def export_wiki
     export_pages_as_zip("wiki")
   end
 
+  #remove
   def export
-    export_html
-    return
-
     #export data
     ids = params[:page_id].join(',')
     wps = WikiPages.page_all.where(:project_id => params[:project_id]).where(:id => params[:page_id]) 
-
     #export folder
     export_base = File.join('/tmp', 'openfoundry-wiki') 
     unless File.directory?(export_base)
       Dir.mkdir(export_base)
     end
     Dir.chdir(export_base)
-    #export_folder = File.join(export_base, Time.now.to_f.to_s)
-    #export_files = File.join(export_folder, 'files')
     export_folder = Time.now.to_f.to_s
     export_files = File.join(export_folder, 'files')
     Dir.mkdir(export_folder)
     Dir.mkdir(export_files)
-    logger.error '*****************************************************'
-    logger.error params[:page_id]
-    logger.error params[:page_id].class
-    logger.error params[:page_id].inspect
-    logger.error params[:page_id].join(',')
-    logger.error  WikiPages.page_all.where(:project_id => params[:project_id]).where(:id => ids).to_sql
-    logger.error  WikiPages.page_all.where(:project_id => params[:project_id]).where(:id => params[:page_id]).to_sql
 
     #parser init
     parser = Wikitext::Parser.new
@@ -390,36 +377,23 @@ protected
       filename = File.join(export_folder, wp.name)
       wiki_html = parser.parse(wp.content)
       files = files + wiki_html.scan(/files\/([^\.]+\.[a-z]+)" alt=/m)
-      #files = files + wiki_html.scan(/image/m)
-      #logger.error wiki_html
-      #logger.error "files:#{files}"
       File.open(filename, 'w') do |f|
         f.write wiki_html 
       end
     end
 
-    #files/images1.jpeg" alt="
-    #logger.error "count:#{files.count}"
-    #logger.error files
-    files = files.uniq
-    #logger.error files
- 
     #cp each file
+    files = files.uniq
     files.each do |f|
-      source = File.join(WikiPages::WIKI_UPLOAD_PATH, params[:project_id], f)
+      source = File.join(WIKI_UPLOAD_PATH, params[:project_id], f)
       target = File.join(export_files, f)
       run = "cp #{source} #{target}"
       system(run)
       logger.error run 
     end
     Dir.chdir(export_folder)
-    #system("tar zcvf #{export_folder}.gz #{export_folder}")
     system("tar zcvf ../#{@project.name}.gz ./")
-    #`tar zcvf /tmp/wiki.tar.gz /tmp/wiki`
-    #send_file '/tmp/wiki.tar.gz', :type=>"application/zip"
-    #send_file "#{export_folder}.gz", :type=>"application/gzip"#, :filename => 'kkk.gz'
     send_file "../#{@project.name}.gz", :type=>"application/gzip"#, :filename => 'kkk.gz'
-    logger.error '*****************************************************'
   end
 
   def export_pages_as_zip(file_type)
@@ -438,9 +412,9 @@ protected
     #path init
     file_prefix = "#{@project.name}-#{file_type}-"
     timestamp = Time.now.strftime('%Y-%m-%d-%H-%M-%S')
-    file_path = WikiPages::WIKI_EXPORT_PATH.join(file_prefix + timestamp + '.zip')
+    file_path = WIKI_EXPORT_PATH.join(file_prefix + timestamp + '.zip')
     tmp_path = "#{file_path}.tmp"
-    Dir.mkdir(WikiPages::WIKI_EXPORT_PATH) unless File.directory?(WikiPages::WIKI_EXPORT_PATH)
+    Dir.mkdir(WIKI_EXPORT_PATH) unless File.directory?(WIKI_EXPORT_PATH)
 
     #parser init
     parser = Wikitext::Parser.new
@@ -463,6 +437,13 @@ protected
             wiki_html.gsub!(/href="\.\/[^"]*/){|m| m+'.html'}
             wiki_html = html_template.result(binding)
             f.puts(wiki_html)
+          elsif file_type == 'pdf'
+            #pdf = WickedPdf.new.pdf_from_string(wiki_html)
+            pdf = WickedPdf.new.pdf_from_string('<h1>Hello There!</h1>')
+            logger.error wp.name
+            logger.error pdf.class
+            logger.error "----#{pdf}----"
+            f.puts(pdf)
           else
             f.puts(wp.content)
           end
@@ -470,13 +451,13 @@ protected
       end
       #zip files
       files.flatten.uniq.each do |f|
-        source = WikiPages::WIKI_UPLOAD_PATH.join(params[:project_id], f)
+        source = WIKI_UPLOAD_PATH.join(params[:project_id], f)
         zip_out.add "files/#{f}", source if File.file?(source)
       end
     end
 
     #send file
-    FileUtils.rm_rf(Dir[WikiPages::WIKI_EXPORT_PATH.join(file_prefix + '*.zip').to_s])
+    FileUtils.rm_rf(Dir[WIKI_EXPORT_PATH.join(file_prefix + '*.zip').to_s])
     FileUtils.mv(tmp_path, file_path)
     send_file file_path
   end
