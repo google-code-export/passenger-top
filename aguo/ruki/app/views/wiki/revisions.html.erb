@@ -1,3 +1,21 @@
+<% content_for :page_head do %>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js"></script>
+  <link rel="stylesheet" href="http://tablesorter.com/themes/blue/style.css" />
+  <script type="text/javascript" src="http://autobahn.tablesorter.com/jquery.tablesorter.min.js"></script>
+  <script type="text/javascript" src="http://tablesorter.com/addons/pager/jquery.tablesorter.pager.js"></script>
+<% end %>
+<% content_for :ujs do %>
+  $.noConflict();
+  (function($){
+    $(document).ready(function(){
+      $("table")
+        .tablesorter({widthFixed: true, widgets: ['zebra'], headers:{0:{sorter:false}}})
+        .tablesorterPager({container: $("#pager"), size:10, positionFixed:false});
+    });
+  })(jQuery);
+<% end %>
+
+
 <h2><%= params[:id] %> <%= t('Revisions', :scope => :wiki) %></h2>
 
 <%= render :partial => "functions"%>
@@ -5,10 +23,9 @@
 <% if @revisions.empty? %>
   <%= t('This page is not exists', :scope => [:wiki, :message]) %>
 <% else %>
-  <table style="" border="1">
+  <table class="tablesorter">
     <thead>
-      <th></th>
-      <th align="center"><%= t('Revision', :scope => :wiki) %></th>
+      <th><%= t('Revision', :scope => :wiki) %></th>
       <th><%= t('Diff with current', :scope => :wiki) %></th>
       <th><%= t('Log', :scope => :wiki) %></th>
       <th><%= t('Revised by', :scope => :wiki) %></th>
@@ -16,7 +33,6 @@
     </thead>
   <% @revisions.each do |r| -%>
     <tr align="center">
-      <td><input type="checkbox" /></td>
       <td><a href="./?r=<%=r.revision%>">r<%= r.revision %></a></td>
       <td><a href="diff?r2=<%=r.revision%>"><%= t('Diff', :scope => :wiki) %></a></td>
       <td><%= r.log %></td>
@@ -25,6 +41,7 @@
     </tr>
   <% end -%>
   </table>
+  <%= render :partial => "pager" %>
 <% end %>
 <hr/>
 <%= render :partial => "functions"%>

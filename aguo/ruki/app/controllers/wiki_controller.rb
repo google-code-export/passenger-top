@@ -5,6 +5,7 @@ require 'fileutils'
 class WikiController < ApplicationController
   #require 'RMagick'
   #include Magick
+  #layout 'wiki'
   include ActionView::Helpers::NumberHelper
   before_filter :timezone
   before_filter :check_permission
